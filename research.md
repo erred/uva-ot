@@ -1,3 +1,18 @@
+# research
+
+## event trigger
+
+### fapolicyd
+
+- iterate through mount points
+- use linux kernel [fanotify_mark](http://man7.org/linux/man-pages/man2/fanotify_mark.2.html)
+- https://github.com/linux-application-whitelisting/fapolicyd/blob/5bd4f6b5fbd9aab34868d04534a9f60e5a660cec/src/daemon/notify.c#L118
+
+### ima / security modules
+
+- TODO
+- https://sourceforge.net/p/linux-ima/wiki/Home/
+
 ## signature
 
 ### PGP / GPG
