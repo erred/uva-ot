@@ -1,0 +1,181 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\PassOptionsToPackage{hyphens}{url} % url is loaded by hyperref
+\usepackage[unicode=true]{hyperref}
+\hypersetup{
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+
+\date{}
+
+\begin{document}
+
+original idea: from the observation you can just add data onto the end
+of a binary no elf section necessary and with suitable delimiters this
+can also be applied to scripts (prefix with comment chars). this way
+file signatures are always available (no separate file) and will survive
+most (all?) transport methods (download over http) unlike file
+attributes so it would be something like digsig/bsign
+
+research question:
+
+\begin{itemize}
+\tightlist
+\item
+  is the above (hash/signature as suffix) a feasible solution to storing
+  / validating signed code
+\item
+  does this work for compiled executables
+\item
+  does this work for scripts / interpreted runtimes (see link in linux
+  ima)
+\item
+  how does this compare to existing solutions / work as an extension to
+  existing framework
+\end{itemize}
+
+(incomplete) list of application whitelisting solutions by platform /
+developer appname / date active
+
+signed / integrity
+
+\begin{itemize}
+\tightlist
+\item
+  linux / kernel integrity measurement architecture / 2005 - present
+\item
+  hash based measurement
+\item
+  integration with TPM, measurement + attestation
+\item
+  uses filesystem extended attributes
+\item
+  possiblity of modifying interpreters to enforce ima for scripts
+\item
+  https://marc.info/?l=linux-kernel\&m=111682497821375\&w=2
+\item
+  linux / microsoft integrity policy enforcement / 2020 - present
+\item
+  linux security module
+\item
+  hash based integrity
+\item
+  more geared for bootup process? entire filesystem based? no docs
+\item
+  linux / digsig - bsign / 2002 - 2009
+\item
+  kernel module
+\item
+  enforcing signed binaries
+\item
+  hash / signature in extra ELF section
+\item
+  macos / apple gatekeeper / 10.7.3 - present
+\item
+  enforce signed application
+\item
+  windows / microsoft applocker / windows 7 - present
+\item
+  path, execution context, signed binary
+\item
+  container / docker content trust / 2015 - present
+\item
+  signed docker container, build / execute enforcement
+\item
+  cloud / google cloud binary authorization / 2018 - present
+\item
+  signed docker container, attestation, execute enforcement
+\end{itemize}
+
+path / other
+
+\begin{itemize}
+\tightlist
+\item
+  linux / redhat selinux / 2000 - present
+\item
+  linux security module
+\item
+  filesystem attribute based mandatory access control
+\item
+  linux / redhat fapolicyd / 2016 - present
+\item
+  linux security module
+\item
+  path based application whitelisting
+\item
+  integration with selinux
+\item
+  linux / canonical apparmor / 1998 - present
+\item
+  linux security module
+\item
+  path based mandatory access control
+\item
+  windows third party application whitelisting
+\item
+  Ivanti Application Control
+\item
+  McAfee Application Control
+\item
+  Trend Micro Application Control
+\item
+  Faronics Anti-Executable
+\item
+  Kaspersky Whitelisting
+\item
+  Airlock Application Whitelisting
+\item
+  Thycotic Application Control
+\item
+  \ldots{}
+\end{itemize}
+
+\end{document}
