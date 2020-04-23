@@ -16,6 +16,7 @@
 ### linux security module
 
 - https://www.kernel.org/doc/html/latest/security/lsm.html
+- https://lwn.net/Articles/674949/
 
 ### ima / evm
 
