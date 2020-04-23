@@ -42,7 +42,7 @@ https://latacora.micro.blog/2019/07/16/the-pgp-problem.html
 - minisign -S -s minisign.sec -m go.mod
 - minisign -V -p minisign.pub -m go.mod
 
-### openssh (ssh-keygen -Y)
+#### openssh (ssh-keygen -Y)
 
 - http://man7.org/linux/man-pages/man1/ssh-keygen.1.html
 - uses stdin/stdout
