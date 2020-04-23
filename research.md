@@ -8,15 +8,20 @@
 - use linux kernel [fanotify_mark](http://man7.org/linux/man-pages/man2/fanotify_mark.2.html)
 - https://github.com/linux-application-whitelisting/fapolicyd/blob/5bd4f6b5fbd9aab34868d04534a9f60e5a660cec/src/daemon/notify.c#L118
 
-### ima / security modules
-
-- TODO
-- https://sourceforge.net/p/linux-ima/wiki/Home/
-
 ### ebpf
 
 - ???
 - https://docs.google.com/presentation/d/1AcB4x7JCWET0ysDr0gsX-EIdQSTyBtmi6OAW7bE0jm0/preview?slide=id.g704abb5039_2_106
+
+### linux security module
+
+- https://www.kernel.org/doc/html/latest/security/lsm.html
+
+### ima / evm
+
+- https://sourceforge.net/p/linux-ima/wiki/Home/
+- configurable but not hookable
+- https://keylime.dev/ remote attestation
 
 ## signature
 
