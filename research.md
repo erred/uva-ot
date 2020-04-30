@@ -12,6 +12,7 @@
 
 - ???
 - https://docs.google.com/presentation/d/1AcB4x7JCWET0ysDr0gsX-EIdQSTyBtmi6OAW7bE0jm0/preview?slide=id.g704abb5039_2_106
+- https://jvns.ca/blog/2017/07/05/linux-tracing-systems/#data-sources
 
 ### linux security module
 
@@ -43,6 +44,8 @@ https://latacora.micro.blog/2019/07/16/the-pgp-problem.html
 - attach untrusted comment
 - signify -S -s signify.sec -m go.mod
 - signify -V -p signify.pub -m go.mod
+
+- https://pkg.go.dev/github.com/ebfe/signify?tab=doc
 
 #### minisign
 
