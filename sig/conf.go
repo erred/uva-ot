@@ -1,4 +1,4 @@
-package suffix
+package sig
 
 import (
 	"encoding/base64"
