@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	MagicString = `AUTHSIGv0:`
+	MagicString = `AUTHSIGv0`
 
 	pubLen = 42
 	sigLen = 74

@@ -2,6 +2,7 @@ package sig
 
 import (
 	"encoding/base64"
+	"encoding/hex"
 	"fmt"
 	"io/ioutil"
 
@@ -15,26 +16,22 @@ type Config struct {
 }
 
 type Key struct {
-	Pubkey     string        `json:"pubkeys"`
-	Sha256Sums []AllowedItem `json:"sha256sums,omitempty"`
+	Pubkey string        `json:"pubkey"`
+	Sha256 []AllowedItem `json:"sha256,omitempty"`
 }
 
 type AllowedItem struct {
 	Hash string `json:"hash"`
 }
 
-// NewConfig parses a config from a file
-func NewConfig(fpath string) (*Config, error) {
-	b, err := ioutil.ReadFile(fpath)
-	if err != nil {
-		return nil, fmt.Errorf("read %s: %w", fpath, err)
-	}
+// NewConfig parses a config from raw bytes
+func NewConfig(b []byte) (*Config, error) {
 	c := &Config{
 		sha256key: make(map[[32]byte][]*signify.PublicKey),
 	}
-	err = yaml.Unmarshal(b, &c)
+	err := yaml.Unmarshal(b, &c)
 	if err != nil {
-		return nil, fmt.Errorf("unmarshal %s: %w", fpath, err)
+		return nil, fmt.Errorf("unmarshal: %w", err)
 	}
 	for i, key := range c.Keys {
 		pkb, err := base64.StdEncoding.DecodeString(key.Pubkey)
@@ -46,8 +43,8 @@ func NewConfig(fpath string) (*Config, error) {
 			return nil, fmt.Errorf("parse pubkey %d %s: %w", i, key.Pubkey, err)
 		}
 
-		for j, ai := range key.Sha256Sums {
-			b, err := base64.StdEncoding.DecodeString(ai.Hash)
+		for j, ai := range key.Sha256 {
+			b, err := hex.DecodeString(ai.Hash)
 			if err != nil {
 				return nil, fmt.Errorf("parse hash %d:%d %s: %w", i, j, ai.Hash, err)
 			} else if len(b) != 32 {
@@ -61,4 +58,13 @@ func NewConfig(fpath string) (*Config, error) {
 		}
 	}
 	return c, nil
+}
+
+// NewConfigFromFile parses a config from a file on disk
+func NewConfigFromFile(fpath string) (*Config, error) {
+	b, err := ioutil.ReadFile(fpath)
+	if err != nil {
+		return nil, fmt.Errorf("read %s: %w", fpath, err)
+	}
+	return NewConfig(b)
 }
