@@ -38,9 +38,12 @@ func NewSigner(key, passphrase string) (*Signer, error) {
 func (s Signer) Sign(r io.Reader, prefix string) io.Reader {
 	var buf bytes.Buffer
 	io.Copy(&buf, r)
-	l := buf.Len()
-	sigb := signify.MarshalSignature(signify.Sign(s.PrivateKey, buf.Bytes()))
-	sig := base64.StdEncoding.EncodeToString(sigb)
-	buf.WriteString(fmt.Sprintf("\n%s:%s:%d:%s:", prefix, MagicString, l, sig))
+	buf.WriteString(s.Signature(buf.Bytes(), prefix))
 	return &buf
+}
+
+func (s Signer) Signature(b []byte, prefix string) string {
+	sigb := signify.MarshalSignature(signify.Sign(s.PrivateKey, b))
+	sig := base64.StdEncoding.EncodeToString(sigb)
+	return fmt.Sprintf("\n%s:%s:%d:%s:", prefix, MagicString, len(b), sig)
 }
