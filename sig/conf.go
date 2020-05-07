@@ -13,11 +13,13 @@ import (
 type Config struct {
 	Keys      []Key `json:"keys"`
 	sha256key map[[32]byte][]*signify.PublicKey
+	allowAll  map[signify.PublicKey]struct{}
 }
 
 type Key struct {
-	Pubkey string        `json:"pubkey"`
-	Sha256 []AllowedItem `json:"sha256,omitempty"`
+	Pubkey   string        `json:"pubkey"`
+	AllowAll bool          `json:"allowAll"`
+	Sha256   []AllowedItem `json:"sha256,omitempty"`
 }
 
 type AllowedItem struct {
@@ -27,6 +29,7 @@ type AllowedItem struct {
 // NewConfig parses a config from raw bytes
 func NewConfig(b []byte) (*Config, error) {
 	c := &Config{
+		allowAll:  make(map[signify.PublicKey]struct{}),
 		sha256key: make(map[[32]byte][]*signify.PublicKey),
 	}
 	err := yaml.Unmarshal(b, &c)
@@ -41,6 +44,10 @@ func NewConfig(b []byte) (*Config, error) {
 		pk, err := signify.ParsePublicKey(pkb)
 		if err != nil {
 			return nil, fmt.Errorf("parse pubkey %d %s: %w", i, key.Pubkey, err)
+		}
+
+		if key.AllowAll {
+			c.allowAll[*pk] = struct{}{}
 		}
 
 		for j, ai := range key.Sha256 {

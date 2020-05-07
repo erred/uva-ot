@@ -46,6 +46,12 @@ func (c *Config) Verify(r io.Reader) error {
 			return nil
 		}
 	}
+
+	for pk := range c.allowAll {
+		if signify.Verify(&pk, data, sig) {
+			return nil
+		}
+	}
 	return ErrNotAuth
 }
 
