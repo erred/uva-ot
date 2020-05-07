@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/ebfe/signify"
+	"go.seankhliao.com/signify"
 )
 
 // Signer is used for signing files

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/ebfe/signify"
+	"go.seankhliao.com/signify"
 	"sigs.k8s.io/yaml"
 )
 
@@ -64,7 +64,7 @@ func NewConfig(b []byte) (*Config, error) {
 func NewConfigFromFile(fpath string) (*Config, error) {
 	b, err := ioutil.ReadFile(fpath)
 	if err != nil {
-		return nil, fmt.Errorf("read %s: %w", fpath, err)
+		return nil, err
 	}
 	return NewConfig(b)
 }

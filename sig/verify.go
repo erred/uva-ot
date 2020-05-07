@@ -10,7 +10,7 @@ import (
 	"io/ioutil"
 	"strconv"
 
-	"github.com/ebfe/signify"
+	"go.seankhliao.com/signify"
 )
 
 const (
