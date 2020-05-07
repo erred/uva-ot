@@ -127,5 +127,3 @@ func sign(s *sig.Signer, prefix, fp string) (string, error) {
 	}
 	return hex.EncodeToString(sha[:]), nil
 }
-
-:AUTHSIGv0:2871:RWSyVQTNWyFryUENFn1jDNot6ZC+RkcGtLXfpoBlOX/qN0mBIDWWAID+KrS92TyasPUtEXSggMBtlva20QgJVXwkmdRMHIBlcAU=:
