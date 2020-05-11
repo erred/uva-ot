@@ -13,9 +13,8 @@ func TestVerify(t *testing.T) {
 	// privkey: RWRCSwAAAAB/LS7sgYhbtA0E8k4e7T0VJfod6GIOYxv1JFtHhbzLGcb9N5XaHxYOpw6DE2gikozUxjL/Z7MdM/5WBU0lRoH52Zya3AIL/axSMraYMq4eRy9LjJdsodkCEZ38O4Ys2qI=
 	c, err := NewConfig([]byte(`
 keys:
-  - pubkey: RWT1JFtHhbzLGdmcmtwCC/2sUjK2mDKuHkcvS4yXbKHZAhGd/DuGLNqi
-    sha256:
-      - hash: dea6e6d7cbb0a0566113b1e748746005fa0ac540ec5c35d56ab52d06b56fd781
+  RWT1JFtHhbzLGdmcmtwCC/2sUjK2mDKuHkcvS4yXbKHZAhGd/DuGLNqi:
+    - dea6e6d7cbb0a0566113b1e748746005fa0ac540ec5c35d56ab52d06b56fd781
 `))
 	if err != nil {
 		t.Errorf("TestVerify setup: parse config err: %v\n", err)
@@ -59,15 +58,14 @@ func TestRoundtrip(t *testing.T) {
 		t.FailNow()
 	}
 
-	key := Key{
-		Pubkey: "RWT1JFtHhbzLGdmcmtwCC/2sUjK2mDKuHkcvS4yXbKHZAhGd/DuGLNqi",
-	}
+	pubkey := "RWT1JFtHhbzLGdmcmtwCC/2sUjK2mDKuHkcvS4yXbKHZAhGd/DuGLNqi"
+	hashes := []string{}
 	for _, tc := range tcs {
 		sumb := sha256.Sum256(tc.in)
 		sum := hex.EncodeToString(sumb[:])
-		key.Sha256 = append(key.Sha256, AllowedItem{Hash: sum})
+		hashes = append(hashes, sum)
 	}
-	b, err := yaml.Marshal(Config{Keys: []Key{key}})
+	b, err := yaml.Marshal(Config{Keys: map[string][]string{pubkey: hashes}})
 	if err != nil {
 		t.Errorf("TestRoundtrip marshal config: %v\n", err)
 		t.FailNow()

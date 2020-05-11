@@ -11,19 +11,9 @@ import (
 )
 
 type Config struct {
-	Keys      []Key `json:"keys"`
+	Keys      map[string][]string `json:"keys"`
 	sha256key map[[32]byte][]*signify.PublicKey
 	allowAll  map[signify.PublicKey]struct{}
-}
-
-type Key struct {
-	Pubkey   string        `json:"pubkey"`
-	AllowAll bool          `json:"allowAll"`
-	Sha256   []AllowedItem `json:"sha256,omitempty"`
-}
-
-type AllowedItem struct {
-	Hash string `json:"hash"`
 }
 
 // NewConfig parses a config from raw bytes
@@ -36,27 +26,28 @@ func NewConfig(b []byte) (*Config, error) {
 	if err != nil {
 		return nil, fmt.Errorf("unmarshal: %w", err)
 	}
-	for i, key := range c.Keys {
-		pkb, err := base64.StdEncoding.DecodeString(key.Pubkey)
+	for pubkey, hashes := range c.Keys {
+		pkb, err := base64.StdEncoding.DecodeString(pubkey)
 		if err != nil {
-			return nil, fmt.Errorf("decode pubkey %d %s: %w", i, key.Pubkey, err)
+			return nil, fmt.Errorf("decode pubkey %s: %w", pubkey, err)
 		}
 		pk, err := signify.ParsePublicKey(pkb)
 		if err != nil {
-			return nil, fmt.Errorf("parse pubkey %d %s: %w", i, key.Pubkey, err)
+			return nil, fmt.Errorf("parse pubkey %s: %w", pubkey, err)
 		}
 
-		if key.AllowAll {
-			c.allowAll[*pk] = struct{}{}
-		}
+		for i, h := range hashes {
+			if h == "*" {
+				c.allowAll[*pk] = struct{}{}
+				continue
+			}
 
-		for j, ai := range key.Sha256 {
-			b, err := hex.DecodeString(ai.Hash)
+			b, err := hex.DecodeString(h)
 			if err != nil {
-				return nil, fmt.Errorf("parse hash %d:%d %s: %w", i, j, ai.Hash, err)
+				return nil, fmt.Errorf("parse hash %s: %d %s: %w", pubkey, i, h, err)
 			} else if len(b) != 32 {
-				return nil, fmt.Errorf("parse hash %d:%d %s: expected 32 bytes got %d",
-					i, j, ai.Hash, len(b))
+				return nil, fmt.Errorf("parse hash %s: %d %s: expected 32 bytes got %d",
+					pubkey, i, h, len(b))
 			}
 
 			var hash [32]byte
