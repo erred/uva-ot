@@ -1,5 +1,15 @@
 # research
 
+lsm, self limit through ebpf progs
+https://landlock.io/
+https://landlock.io/talks/2019-09-12_landlock-summary.pdf
+
+what can you do
+https://medium.com/oracledevs/bpf-a-tour-of-program-types-75778c90ea2
+
+seccomp bpf, filter syscalls, use in conjunction with lsm
+https://www.kernel.org/doc/html/v4.16/userspace-api/seccomp_filter.html
+
 ## event trigger
 
 ### fapolicyd
