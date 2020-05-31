@@ -1,5 +1,8 @@
 # research
 
+apple notarization?
+https://sigpipe.macromates.com/2020/macos-catalina-slow-by-design/
+
 lsm, self limit through ebpf progs
 https://landlock.io/
 https://landlock.io/talks/2019-09-12_landlock-summary.pdf
